@@ -15,6 +15,7 @@ $config = [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'cxFDf23ds',
+//            'baseUrl' => '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

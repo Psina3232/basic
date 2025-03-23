@@ -39,10 +39,13 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['adress', 'number', 'date', 'time', 'id_type', 'another', 'id_pay', 'id_user', 'id_status'], 'required'],
+            [['adress', 'number', 'date', 'time', 'id_type', 'id_pay'], 'required'],
             [['id_type', 'id_pay', 'id_user', 'id_status'], 'integer'],
             [['adress', 'number', 'date', 'time'], 'string', 'max' => 50],
             [['another'], 'string', 'max' => 59],
+            ['another', 'default', 'value' => null],
+            ['id_user', 'default', 'value' => Yii::$app->user->identity->getId()],
+            ['id_status', 'default', 'value' => 1],
             [['id_pay'], 'exist', 'skipOnError' => true, 'targetClass' => Pay::class, 'targetAttribute' => ['id_pay' => 'id']],
             [['id_status'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['id_status' => 'id']],
             [['id_type'], 'exist', 'skipOnError' => true, 'targetClass' => Type::class, 'targetAttribute' => ['id_type' => 'id']],

@@ -10,7 +10,10 @@ use yii\widgets\ActiveForm;
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+
+        'enableAjaxValidation' => true,
+    ]); ?>
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
@@ -21,7 +24,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'FIO')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'number')->widget(\yii\widgets\MaskedInput::class, [
-    'mask' => '+7 (999)-999-99-99',]) ?>
+        'mask' => '+7 (999)-999-99-99',]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

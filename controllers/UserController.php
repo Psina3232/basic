@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -78,6 +80,11 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

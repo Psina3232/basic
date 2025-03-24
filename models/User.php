@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user".
@@ -82,7 +81,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return User::findOne(['username' => $username]);;
+        return User::findOne(['username' => $username]);
     }
 
     /**

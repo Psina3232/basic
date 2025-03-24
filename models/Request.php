@@ -42,7 +42,6 @@ class Request extends \yii\db\ActiveRecord
             [['adress', 'number', 'date', 'time', 'id_type', 'id_pay'], 'required'],
             [['id_type', 'id_pay', 'id_user', 'id_status'], 'integer'],
             [['adress', 'number', 'date', 'time'], 'string', 'max' => 50],
-            [['another'], 'string', 'max' => 59],
             ['another', 'default', 'value' => null],
             ['id_user', 'default', 'value' => Yii::$app->user->identity->getId()],
             ['id_status', 'default', 'value' => 1],
@@ -60,13 +59,13 @@ class Request extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'adress' => 'Adress',
-            'number' => 'Number',
-            'date' => 'Date',
-            'time' => 'Time',
-            'id_type' => 'Id Type',
-            'another' => 'Another',
-            'id_pay' => 'Id Pay',
+            'adress' => 'Адрес',
+            'number' => 'Номер телефона',
+            'date' => 'Дата',
+            'time' => 'Время',
+            'id_type' => 'Тип услуги',
+            'another' => 'Другая услуга',
+            'id_pay' => 'Тип оплаты',
             'id_user' => 'Id User',
             'id_status' => 'Id Status',
         ];

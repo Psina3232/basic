@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Request;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,6 +23,17 @@ class RequestController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['*'],
+                    'rules' => [
+                        [
+                            'actions' => ['index', 'create', 'view', 'update', 'delete'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -40,7 +52,7 @@ class RequestController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Request::find()->where(['id_user' =>Yii::user->identity->getId()]),
+            'query' => Request::find()->where(['id_user' =>Yii::$app->user->identity->getId()]),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -79,7 +91,6 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model = new Request();
-
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['request/index']);

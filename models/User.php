@@ -17,6 +17,7 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $password2;
     /**
      * {@inheritdoc}
      */
@@ -31,9 +32,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'FIO', 'number', 'email'], 'required'],
+            [['username', 'password', 'FIO', 'number', 'email', 'password2'], 'required', 'message' => 'Это поле обязательно'],
             [['username', 'password', 'FIO', 'number', 'email'], 'string', 'max' => 50],
             [['role'], 'string', 'max' => 30],
+            ['role', 'default', 'value' => 0],
+            ['email', 'email', 'message' => 'Некорректная почта'],
+            ['password', 'string', 'min' => 6, 'tooShort' => 'Минимум 6 символов'],
+            ['password', 'compare', 'compareAttribute' => 'password2', 'message' => 'Пароли не совпадают'],
+            ['username', 'unique', 'message' => 'Такой логин уже существует'],
+            ['FIO', 'match', 'pattern' => '/^[А-яЁё -]*$/u','message' => 'ФИО можно ввести только на кириллице']
         ];
     }
 
@@ -44,11 +51,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'FIO' => 'Fio',
-            'number' => 'Number',
-            'email' => 'Email',
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'password2' => 'Повторение пароля',
+            'FIO' => 'ФИО',
+            'number' => 'Номер телефона',
+            'email' => 'Почта',
             'role' => 'Role',
         ];
     }
@@ -114,7 +122,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function beforeSave($insert)
     {
-        $this->password === md5($this->password);
+        $this->password = md5($this->password);
         return parent::beforeSave($insert);
 
     }

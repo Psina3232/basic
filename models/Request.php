@@ -39,9 +39,12 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'address', 'number', 'date', 'time', 'id_type', 'another', 'id_pay', 'id_user', 'id_status'], 'required'],
+            [['address', 'number', 'date', 'time', 'id_type', 'id_pay'], 'required'],
             [['id', 'id_type', 'id_pay', 'id_user', 'id_status'], 'integer'],
             [['address', 'number', 'date', 'time', 'another'], 'string', 'max' => 50],
+            ['another', 'default', 'value' => null],
+            ['id_user', 'default', 'value' => Yii::$app->user->identity->getId()],
+            ['id_status', 'default', 'value' => 1],
             [['id'], 'unique'],
             [['id_pay'], 'exist', 'skipOnError' => true, 'targetClass' => Pay::class, 'targetAttribute' => ['id_pay' => 'id']],
             [['id_status'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['id_status' => 'id']],
@@ -57,13 +60,13 @@ class Request extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'address' => 'Address',
-            'number' => 'Number',
-            'date' => 'Date',
-            'time' => 'Time',
-            'id_type' => 'Id Type',
-            'another' => 'Another',
-            'id_pay' => 'Id Pay',
+            'address' => 'Адресс',
+            'number' => 'Номер телефона',
+            'date' => 'Дата',
+            'time' => 'Время',
+            'id_type' => 'Тип клининга',
+            'another' => 'Другая услуга',
+            'id_pay' => 'Тип оплаты',
             'id_user' => 'Id User',
             'id_status' => 'Id Status',
         ];
